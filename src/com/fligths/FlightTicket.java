@@ -26,7 +26,9 @@ public class FlightTicket {
                 TEMP.add(FT.destination);
             }
         }
-        return new ArrayList<>(TEMP);
+        ArrayList<String> destinations = new ArrayList<>(TEMP);
+        destinations.add(0, "");
+        return destinations;
     }
 
 
@@ -57,7 +59,7 @@ public class FlightTicket {
         return cheapTickets;
     }
 
-    //TODO ticket search
+    //ticket search
     static String ticket_search(String dep, String des){
         StringBuilder tickets = new StringBuilder();
         for(FlightTicket FT:TicketList){

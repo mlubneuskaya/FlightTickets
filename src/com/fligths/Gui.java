@@ -16,7 +16,6 @@ public class Gui extends JFrame {
     private Font font = new Font("", Font.BOLD, 20);
     private Font smallFont = new Font("", Font.BOLD, 15);
     private JComboBox destinationBox;
-    private JComboBox departureBox;
     private ArrayList<String> temp1 = new ArrayList<>();
     private ArrayList<String> temp2 = new ArrayList<>();
 
@@ -26,34 +25,21 @@ public class Gui extends JFrame {
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         FlightTicket.print();
     }
+
     Gui(){
         setSize(2000, 2000);
         setLayout(null);
         JLabel departureLabel = make_label(20, 65, 400, 12, "from");
-        temp1 = FlightTicket.departure_list("");
-        Object[] departures = temp1.toArray();
-        departureBox = new JComboBox(departures);
-        departureBox.setSelectedItem("Minsk");
+        JComboBox departureBox = make_ComboBox(20, 80, 400, 60, "Minsk", FlightTicket.departure_list(""));
+        destinationBox = make_ComboBox(440, 80, 400, 60, "", FlightTicket.destination_list(departureBox.getSelectedItem().toString()));
+        JLabel destinationLabel = make_label(440, 65, 400, 12, "to");
         departureBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 temp2 = FlightTicket.destination_list(departureBox.getSelectedItem().toString());
-                temp2.add(0, "");
                 destinationBox.setModel(new DefaultComboBoxModel(temp2.toArray()));
             }
         });
-        departureBox.setBounds(20, 80, 400, 60);
-        departureBox.setFont(font);
-        departureBox.setEditable(true);
-        //destination
-        temp2 = FlightTicket.destination_list(departureBox.getSelectedItem().toString());
-        temp2.add(0, "");
-        Object[] destinations = temp2.toArray();
-        destinationBox = new JComboBox(destinations);
-        destinationBox.setBounds(440, 80, 400, 60);
-        destinationBox.setFont(font);
-        destinationBox.setEditable(true);
-        JLabel destinationLabel = make_label(440, 65, 400, 12, "to");
         //Result field
         Results.setVisible(false);
         Results.setFont(font);
@@ -100,6 +86,16 @@ public class Gui extends JFrame {
         label.setForeground(Color.WHITE);
         return label;
     }
+
+    JComboBox make_ComboBox(int x, int y, int w, int h, String item, ArrayList<String> list){
+        Object[] countries = list.toArray();
+        JComboBox box = new JComboBox(countries);
+        box.setSelectedItem(item);
+        box.setBounds(x, y, w, h);
+        box.setFont(font);
+        box.setEditable(true);
+        return box;
+    };
 }
 
 
