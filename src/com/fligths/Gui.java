@@ -10,11 +10,7 @@ import java.lang.*;
 import java.util.ArrayList;
 
 public class Gui extends JFrame {
-    private JTextField departureField = new JTextField();
     private JTextArea Results = new JTextArea();
-    private JLabel departureLabel = new JLabel("from");
-    private JLabel destinationLabel = new JLabel("to");
-    private JTextField destinationField = new JTextField("");
     private JButton search = new JButton("search");
     private JButton cheapest = new JButton("cheapest tickets");
     private Font font = new Font("", Font.BOLD, 20);
@@ -23,14 +19,17 @@ public class Gui extends JFrame {
     private JComboBox departureBox;
     private ArrayList<String> temp1 = new ArrayList<>();
     private ArrayList<String> temp2 = new ArrayList<>();
-    private DefaultComboBoxModel depModel = new DefaultComboBoxModel();
+
+    public static void main(String[] args){
+        Gui gui = new Gui();
+        gui.setVisible(true);
+        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        FlightTicket.print();
+    }
     Gui(){
         setSize(2000, 2000);
         setLayout(null);
-        departureLabel.setBounds(20, 65, 400, 12);
-        departureField.setFont(font);
-        departureLabel.setFont(smallFont);
-        departureLabel.setForeground(Color.WHITE);
+        JLabel departureLabel = make_label(20, 65, 400, 12, "from");
         temp1 = FlightTicket.departure_list("");
         Object[] departures = temp1.toArray();
         departureBox = new JComboBox(departures);
@@ -54,17 +53,12 @@ public class Gui extends JFrame {
         destinationBox.setBounds(440, 80, 400, 60);
         destinationBox.setFont(font);
         destinationBox.setEditable(true);
-        destinationLabel.setBounds(440, 65, 400, 12);
-        destinationLabel.setFont(smallFont);
-        destinationLabel.setForeground(Color.WHITE);
-        //TODO result field
+        JLabel destinationLabel = make_label(440, 65, 400, 12, "to");
+        //Result field
         Results.setVisible(false);
-        /*JScrollPane bar = new JScrollPane(Results);
-        bar.setVisible(false);
-        bar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);*/
         Results.setFont(font);
         Results.setBounds(20, 160, 1200, 300);
-        //TODO cheap button
+        //cheap button
         cheapest.setBounds(1000, 80, 200, 60);
         cheapest.setBackground(Color.ORANGE);
         cheapest.setFont(font);
@@ -76,7 +70,7 @@ public class Gui extends JFrame {
                 Results.setVisible(true);
             }
         });
-        //TODO search button
+        //search button
         search.setBounds(860, 80, 120, 60);
         search.setBackground(Color.ORANGE);
         search.setFont(font);
@@ -99,11 +93,12 @@ public class Gui extends JFrame {
         getContentPane().add(destinationLabel);
         getContentPane().add(Results);
     }
-    public static void main(String[] args){
-        Gui gui = new Gui();
-        gui.setVisible(true);
-        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        FlightTicket.print();
+    private JLabel make_label(int x, int y, int w, int h, String name){
+        JLabel label = new JLabel(name);
+        label.setBounds(x, y, w, h);
+        label.setFont(smallFont);
+        label.setForeground(Color.WHITE);
+        return label;
     }
 }
 
