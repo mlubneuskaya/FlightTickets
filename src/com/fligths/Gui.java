@@ -11,13 +11,9 @@ import java.util.ArrayList;
 
 public class Gui extends JFrame {
     private JTextArea Results = new JTextArea();
-    private JButton search = new JButton("search");
-    private JButton cheapest = new JButton("cheapest tickets");
     private Font font = new Font("", Font.BOLD, 20);
     private Font smallFont = new Font("", Font.BOLD, 15);
     private JComboBox destinationBox;
-    private ArrayList<String> temp1 = new ArrayList<>();
-    private ArrayList<String> temp2 = new ArrayList<>();
 
     public static void main(String[] args){
         Gui gui = new Gui();
@@ -26,28 +22,29 @@ public class Gui extends JFrame {
         FlightTicket.print();
     }
 
-    Gui(){
+
+    private Gui(){
         setSize(2000, 2000);
         setLayout(null);
         JLabel departureLabel = make_label(20, 65, 400, 12, "from");
-        JComboBox departureBox = make_ComboBox(20, 80, 400, 60, "Minsk", FlightTicket.departure_list(""));
-        destinationBox = make_ComboBox(440, 80, 400, 60, "", FlightTicket.destination_list(departureBox.getSelectedItem().toString()));
+        JComboBox departureBox = make_ComboBox(20, 80, 400, 60, "Minsk",
+                FlightTicket.departure_list(""));
+        destinationBox = make_ComboBox(440, 80, 400, 60, "",
+                FlightTicket.destination_list(departureBox.getSelectedItem().toString()));
         JLabel destinationLabel = make_label(440, 65, 400, 12, "to");
         departureBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                temp2 = FlightTicket.destination_list(departureBox.getSelectedItem().toString());
-                destinationBox.setModel(new DefaultComboBoxModel(temp2.toArray()));
+                ArrayList temp = FlightTicket.destination_list(departureBox.getSelectedItem().toString());
+                destinationBox.setModel(new DefaultComboBoxModel(temp.toArray()));
             }
         });
         //Result field
         Results.setVisible(false);
         Results.setFont(font);
         Results.setBounds(20, 160, 1200, 300);
-        //cheap button
-        cheapest.setBounds(1000, 80, 200, 60);
-        cheapest.setBackground(Color.ORANGE);
-        cheapest.setFont(font);
+
+        JButton cheapest = make_button(1000, 80,200, 60, "cheapest tickets");
         cheapest.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -56,10 +53,8 @@ public class Gui extends JFrame {
                 Results.setVisible(true);
             }
         });
-        //search button
-        search.setBounds(860, 80, 120, 60);
-        search.setBackground(Color.ORANGE);
-        search.setFont(font);
+
+        JButton search = make_button(860, 80, 120 ,60, "search");
         search.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,7 +64,7 @@ public class Gui extends JFrame {
                 //bar.setVisible(true);
             }
         });
-        //everything
+
         getContentPane().setBackground(Color.BLUE);
         getContentPane().add(search);
         getContentPane().add(cheapest);
@@ -87,7 +82,7 @@ public class Gui extends JFrame {
         return label;
     }
 
-    JComboBox make_ComboBox(int x, int y, int w, int h, String item, ArrayList<String> list){
+    private JComboBox make_ComboBox(int x, int y, int w, int h, String item, ArrayList<String> list){
         Object[] countries = list.toArray();
         JComboBox box = new JComboBox(countries);
         box.setSelectedItem(item);
@@ -95,6 +90,14 @@ public class Gui extends JFrame {
         box.setFont(font);
         box.setEditable(true);
         return box;
+    };
+
+    private JButton make_button(int x, int y, int w, int h, String name){
+        JButton button = new JButton(name);
+        button.setBackground(Color.ORANGE);
+        button.setFont(font);
+        button.setBounds(x, y, w, h);
+        return button;
     };
 }
 
