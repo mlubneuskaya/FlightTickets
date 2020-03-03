@@ -11,6 +11,9 @@ public class FlightTicket {
     private String date;
     private static ArrayList<FlightTicket> TicketList = new ArrayList<>();
     private static SortedSet<String> TEMP = new TreeSet<>();
+
+    FlightTicket(){}
+
     private FlightTicket(String Departure, String Destination, String Price, String Date){
         departure = Departure;
         destination = Destination;
@@ -18,7 +21,7 @@ public class FlightTicket {
         date = Date;
     }
 
-    static ArrayList<String> destination_list(String departure){
+    ArrayList<String> destination_list(String departure){
         TEMP.clear();
         FlightTicket.get_tickets();
         for(FlightTicket FT: TicketList){
@@ -32,7 +35,7 @@ public class FlightTicket {
     }
 
 
-    static ArrayList<String> departure_list(String destination){
+    ArrayList<String> departure_list(String destination){
         TEMP.clear();
         FlightTicket.get_tickets();
         for(FlightTicket FT: TicketList){
@@ -40,12 +43,11 @@ public class FlightTicket {
                 TEMP.add(FT.get_departure());
             }
         }
-        ArrayList<String> departures = new ArrayList<>(TEMP);
-        return departures;
+        return new ArrayList<>(TEMP);
     }
 
 
-    static StringBuilder find_cheapest(String dep){
+    StringBuilder find_cheapest(String dep){
         Iterator<FlightTicket> FT = TicketList.iterator();
         FlightTicket F;
         StringBuilder cheapTickets = new StringBuilder();
@@ -59,8 +61,8 @@ public class FlightTicket {
         return cheapTickets;
     }
 
-    //ticket search
-    static String ticket_search(String dep, String des){
+
+    String ticket_search(String dep, String des){
         StringBuilder tickets = new StringBuilder();
         for(FlightTicket FT:TicketList){
             if ((FT.get_departure().equals(dep))&&(FT.get_destination().equals(des))){
@@ -68,9 +70,9 @@ public class FlightTicket {
             }
         }
         return tickets.toString();
-    };
+    }
 
-    static void get_tickets(){
+    private static void get_tickets(){
         String temp;
         if(TicketList.isEmpty()){
             try{
@@ -89,12 +91,6 @@ public class FlightTicket {
         }
     }
 
-    static void print(){
-        FlightTicket.get_tickets();
-        for (FlightTicket FT: TicketList){
-            System.out.println(FT);
-        }
-    }
 
 
     private Double get_price(){
