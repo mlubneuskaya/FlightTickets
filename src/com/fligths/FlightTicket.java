@@ -34,7 +34,6 @@ public class FlightTicket {
         return destinations;
     }
 
-
     ArrayList<String> departure_list(String destination){
         TEMP.clear();
         FlightTicket.get_tickets();
@@ -47,7 +46,9 @@ public class FlightTicket {
     }
 
 
-    StringBuilder find_cheapest(String dep){
+
+
+    String find_cheapest(String dep){
         Iterator<FlightTicket> FT = TicketList.iterator();
         FlightTicket F;
         StringBuilder cheapTickets = new StringBuilder();
@@ -59,8 +60,7 @@ public class FlightTicket {
                 cheapTickets.append(T).append("\n");
             }
         }
-        System.out.println("the cheapest tickets:" + "\n" + cheapTickets);
-        return cheapTickets;
+        return cheapTickets.toString();
     }
 
 

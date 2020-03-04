@@ -10,6 +10,7 @@ public class Gui extends JFrame {
     private Font font = new Font("", Font.BOLD, 20);
     private Font smallFont = new Font("", Font.BOLD, 15);
     private JComboBox destinationBox;
+    private FlightCommandExecutor executor = new FlightCommandExecutor();
 
     public static void main(String[] args){
         FlightTicket ticket = new FlightTicket();
@@ -30,8 +31,8 @@ public class Gui extends JFrame {
         JLabel destinationLabel = make_label(440, 65, 400, 12, "to");
 
         departureBox.addItemListener(e -> {
-            ArrayList temp = ticket.destination_list(departureBox.getSelectedItem().toString());
-            destinationBox.setModel(new DefaultComboBoxModel(temp.toArray()));
+            ArrayList<String> destinations = ticket.destination_list(departureBox.getSelectedItem().toString());
+            destinationBox.setModel(new DefaultComboBoxModel(destinations.toArray()));
         });
 
         Results.setVisible(false);
@@ -40,15 +41,18 @@ public class Gui extends JFrame {
 
         JButton cheapest = make_button(1000, 80,200, 60, "cheapest tickets");
         cheapest.addActionListener(e -> {
-            Results.append(ticket.find_cheapest(departureBox.getSelectedItem().toString()).toString());
+            FlightCommand command = new FlightCommand("find_cheapest_ticket",
+                    new String[]{departureBox.getSelectedItem().toString()});
+            Results.append(executor.executeCommand(command).toString());
             destinationBox.setSelectedItem(destinationBox.getItemAt(0));
             Results.setVisible(true);
         });
 
         JButton search = make_button(860, 80, 120 ,60, "search");
         search.addActionListener(e -> {
-            Results.append(ticket.ticket_search(departureBox.getSelectedItem().toString(),
-                    destinationBox.getSelectedItem().toString()));
+            FlightCommand command = new FlightCommand("find_ticket",
+                    new String[]{departureBox.getSelectedItem().toString(), destinationBox.getSelectedItem().toString()});
+            Results.append(executor.executeCommand(command).toString());
             Results.setVisible(true);
         });
 
