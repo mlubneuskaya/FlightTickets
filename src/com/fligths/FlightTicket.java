@@ -51,7 +51,9 @@ public class FlightTicket {
         Iterator<FlightTicket> FT = TicketList.iterator();
         FlightTicket F;
         StringBuilder cheapTickets = new StringBuilder();
-        while(!(F = FT.next()).get_departure().equals(dep)){}
+        while(true){
+            if ((F = FT.next()).get_departure().equals(dep)) break;
+        }
         for(FlightTicket T:TicketList){
             if(T.get_price().equals(F.get_price())&&(T.get_departure().equals(dep))){
                 cheapTickets.append(T).append("\n");
@@ -62,7 +64,7 @@ public class FlightTicket {
     }
 
 
-    String ticket_search(String dep, String des){
+    String find_ticket(String dep, String des){
         StringBuilder tickets = new StringBuilder();
         for(FlightTicket FT:TicketList){
             if ((FT.get_departure().equals(dep))&&(FT.get_destination().equals(des))){
