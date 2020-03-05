@@ -1,6 +1,8 @@
 package com.fligths;
 
-public class FlightCommand{
+import java.io.Serializable;
+
+public class FlightCommand implements Serializable {
     private String Name;
     private String[] Params;
 
