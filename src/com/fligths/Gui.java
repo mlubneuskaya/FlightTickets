@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.Font;
 import java.awt.Color;
 import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 
 public class Gui extends JFrame {
@@ -26,29 +27,27 @@ public class Gui extends JFrame {
         setSize(2000, 2000);
         setLayout(null);
 
-        JLabel departureLabel = make_label(20, 65, 400, 12, "from");
+        JLabel departureLabel = makeLabel(20, 65, 400, 12, "from");
 
         String initialItem = "Minsk";
 
-        JComboBox<String> departureBox = make_ComboBox(20, 80, 400, 60, initialItem,
+        JComboBox<String> departureBox = makeComboBox(20, 80, 400, 60, initialItem,
                 ticket.departure_list(""));
 
-        JComboBox<String> destinationBox = make_ComboBox(440, 80, 400, 60, "",
+        JComboBox<String> destinationBox = makeComboBox(440, 80, 400, 60, "",
                 ticket.destination_list(initialItem));
 
-        JLabel destinationLabel = make_label(440, 65, 400, 12, "to");
+        JLabel destinationLabel = makeLabel(440, 65, 400, 12, "to");
 
         departureBox.addItemListener(e -> {
-            List<String> destinations = ticket.destination_list(departureBox.getSelectedItem().toString());
+            List<String> destinations = ticket.destination_list(Objects.requireNonNull(departureBox.getSelectedItem()).toString());
             destinationBox.setModel(new DefaultComboBoxModel<>(destinations.toArray(new String[0])));
         });
 
-        JTextArea Results = new JTextArea();
+        JTextArea Results = makeTextArea(20, 160, 1200, 300);
         Results.setVisible(false);
-        Results.setFont(FONT);
-        Results.setBounds(20, 160, 1200, 300);
 
-        JButton cheapest = make_button(1000, 80, 200, 60, "cheapest tickets");
+        JButton cheapest = makeButton(1000, 80, 200, 60, "cheapest tickets");
 
         cheapest.addActionListener(e -> {
             FlightCommand command = new FlightCommand("find_cheapest_ticket",
@@ -58,7 +57,7 @@ public class Gui extends JFrame {
             Results.setVisible(true);
         });
 
-        JButton search = make_button(860, 80, 120, 60, "search");
+        JButton search = makeButton(860, 80, 120, 60, "search");
         search.addActionListener(e -> {
             FlightCommand command = new FlightCommand("find_ticket",
                     new String[]{departureBox.getSelectedItem().toString(), destinationBox.getSelectedItem().toString()});
@@ -76,7 +75,7 @@ public class Gui extends JFrame {
         getContentPane().add(Results);
     }
 
-    private JLabel make_label(int x, int y, int w, int h, String name) {
+    private JLabel makeLabel(int x, int y, int w, int h, String name) {
         JLabel label = new JLabel(name);
         label.setBounds(x, y, w, h);
         label.setFont(SMALL_FONT);
@@ -84,7 +83,7 @@ public class Gui extends JFrame {
         return label;
     }
 
-    private JComboBox<String> make_ComboBox(int x, int y, int w, int h, String item, List<String> list) {
+    private JComboBox<String> makeComboBox(int x, int y, int w, int h, String item, List<String> list) {
         JComboBox<String> box = new JComboBox<>(new Vector<>(list));
         box.setSelectedItem(item);
         box.setBounds(x, y, w, h);
@@ -93,9 +92,14 @@ public class Gui extends JFrame {
         return box;
     }
 
-    ;
+    ;private JTextArea makeTextArea(int x, int y, int w, int h){
+        JTextArea area = new JTextArea();
+        area.setBounds(x, y, w, h);
+        area.setFont(FONT);
+        return area;
+    }
 
-    private JButton make_button(int x, int y, int w, int h, String name) {
+    private JButton makeButton(int x, int y, int w, int h, String name) {
         JButton button = new JButton(name);
         button.setBackground(Color.ORANGE);
         button.setFont(FONT);
