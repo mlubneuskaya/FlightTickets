@@ -1,5 +1,7 @@
 package com.fligths;
 
+import java.util.List;
+
 public class FlightCommandExecutor {
 
     private FlightTicketSearch flightTicket;
@@ -8,12 +10,16 @@ public class FlightCommandExecutor {
         this.flightTicket = flightTicket;
     }
 
-    public String executeCommand(FlightCommand command){
-        switch(command.getName()) {
-            case "find_ticket":
-                return flightTicket.find_ticket(command.getParams()[0], command.getParams()[1]);
-            case "find_cheapest_ticket":
-                return flightTicket.find_cheapest(command.getParams()[0]);
+    public List<String> executeCommand(FlightCommand command){
+        switch(command.getName().get(0)) {
+            case "findTicket":
+                return flightTicket.findTicket(command.getParams().get(0), command.getParams().get(1));
+            case "findCheapestTicket":
+                return flightTicket.findCheapest(command.getParams().get(0));
+            case "getDepartureList":
+                return flightTicket.destinationList(command.getParams().get(0));
+            case "getDestinationList":
+                return flightTicket.destinationList(command.getParams().get(1));
             default:
                 return null;
         }

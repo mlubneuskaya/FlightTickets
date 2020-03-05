@@ -2,12 +2,7 @@ package com.fligths;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public class FlightTicketServerSearch implements FlightTicketSearch {
     private static ArrayList<FlightTicket> TicketList = new ArrayList<>();
@@ -16,9 +11,9 @@ public class FlightTicketServerSearch implements FlightTicketSearch {
     public FlightTicketServerSearch(){}
 
     @Override
-    public ArrayList<String> destination_list(String departure){
+    public List<String> destinationList(String departure){
         TEMP.clear();
-        FlightTicketServerSearch.get_tickets();
+        FlightTicketServerSearch.getTickets();
         for(FlightTicket FT: TicketList){
             if(FT.getDestination().equals(departure)){
                 TEMP.add(FT.getDestination());
@@ -30,9 +25,9 @@ public class FlightTicketServerSearch implements FlightTicketSearch {
     }
 
     @Override
-    public ArrayList<String> departure_list(String destination){
+    public List<String> departureList(String destination){
         TEMP.clear();
-        FlightTicketServerSearch.get_tickets();
+        FlightTicketServerSearch.getTickets();
         for(FlightTicket FT: TicketList){
             if(!FT.getDeparture().equals(destination)){
                 TEMP.add(FT.getDeparture());
@@ -42,7 +37,7 @@ public class FlightTicketServerSearch implements FlightTicketSearch {
     }
 
     @Override
-    public String find_cheapest(String dep){
+    public List<String> findCheapest(String dep){
         Iterator<FlightTicket> FT = TicketList.iterator();
         FlightTicket F;
         StringBuilder cheapTickets = new StringBuilder();
@@ -54,21 +49,21 @@ public class FlightTicketServerSearch implements FlightTicketSearch {
                 cheapTickets.append(T).append("\n");
             }
         }
-        return cheapTickets.toString();
+        return Collections.singletonList(cheapTickets.toString());
     }
 
     @Override
-    public String find_ticket(String dep, String des){
+    public List<String> findTicket(String dep, String des){
         StringBuilder tickets = new StringBuilder();
         for(FlightTicket FT:TicketList){
             if ((FT.getDeparture().equals(dep))&&(FT.getDestination().equals(des))){
                 tickets.append(FT).append("\n");
             }
         }
-        return tickets.toString();
+        return Collections.singletonList(tickets.toString());
     }
 
-    private static void get_tickets(){
+    private static void getTickets(){
         String temp;
         if(TicketList.isEmpty()){
             try{

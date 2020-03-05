@@ -32,15 +32,15 @@ public class Gui extends JFrame {
         String initialItem = "Minsk";
 
         JComboBox<String> departureBox = makeComboBox(20, 80, 400, 60, initialItem,
-                ticket.departure_list(""));
+                ticket.departureList(""));
 
         JComboBox<String> destinationBox = makeComboBox(440, 80, 400, 60, "",
-                ticket.destination_list(initialItem));
+                ticket.destinationList(initialItem));
 
         JLabel destinationLabel = makeLabel(440, 65, 400, 12, "to");
 
         departureBox.addItemListener(e -> {
-            List<String> destinations = ticket.destination_list(Objects.requireNonNull(departureBox.getSelectedItem()).toString());
+            List<String> destinations = ticket.destinationList(Objects.requireNonNull(departureBox.getSelectedItem()).toString());
             destinationBox.setModel(new DefaultComboBoxModel<>(destinations.toArray(new String[0])));
         });
 
@@ -50,18 +50,18 @@ public class Gui extends JFrame {
         JButton cheapest = makeButton(1000, 80, 200, 60, "cheapest tickets");
 
         cheapest.addActionListener(e -> {
-            FlightCommand command = new FlightCommand("find_cheapest_ticket",
+            FlightCommand command = new FlightCommand("findCheapestTicket",
                     new String[]{departureBox.getSelectedItem().toString()});
-            Results.append(executor.executeCommand(command));
+            Results.append(executor.executeCommand(command).get(0));
             destinationBox.setSelectedItem(destinationBox.getItemAt(0));
             Results.setVisible(true);
         });
 
         JButton search = makeButton(860, 80, 120, 60, "search");
         search.addActionListener(e -> {
-            FlightCommand command = new FlightCommand("find_ticket",
+            FlightCommand command = new FlightCommand("findTicket",
                     new String[]{departureBox.getSelectedItem().toString(), destinationBox.getSelectedItem().toString()});
-            Results.append(executor.executeCommand(command));
+            Results.append(executor.executeCommand(command).get(0));
             Results.setVisible(true);
         });
 

@@ -3,11 +3,11 @@ import java.util.List;
 
 public interface FlightTicketSearch {
 
-    List<String> destination_list(String departure);
+    List<String> destinationList(String departure);
 
-    List<String> departure_list(String destination);
+    List<String> departureList(String destination);
 
-    String find_cheapest(String dep);
+    List<String> findCheapest(String dep);
 
-    String find_ticket(String dep, String des);
+    List<String> findTicket(String dep, String des);
 }
