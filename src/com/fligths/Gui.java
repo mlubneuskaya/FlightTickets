@@ -50,9 +50,7 @@ public class Gui extends JFrame {
         JButton cheapest = makeButton(1000, 80, 200, 60, "cheapest tickets");
 
         cheapest.addActionListener(e -> {
-            FlightCommand command = new FlightCommand("findCheapestTicket",
-                    new String[]{departureBox.getSelectedItem().toString()});
-            Results.append(executor.executeCommand(command).get(0));
+            Results.append(ticket.findCheapest(departureBox.getSelectedItem().toString()).get(0));
             destinationBox.setSelectedItem(destinationBox.getItemAt(0));
             Results.setVisible(true);
         });

@@ -13,17 +13,11 @@ public class FlightTicket {
         date = Date;
     }
 
-    public String getDeparture() {
-        return departure;
-    }
+    public String getDeparture() {return departure;}
 
-    public String getDestination() {
-        return destination;
-    }
+    public String getDestination() {return destination;}
 
-    public Double getPrice() {
-        return price;
-    }
+    public Double getPrice() {return price;}
 
     public String getDate() {
         return date;

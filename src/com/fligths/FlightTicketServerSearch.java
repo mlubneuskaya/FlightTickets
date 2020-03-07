@@ -63,7 +63,7 @@ public class FlightTicketServerSearch implements FlightTicketSearch {
         return Collections.singletonList(tickets.toString());
     }
 
-    private static void getTickets(){
+    public static void getTickets(){
         String temp;
         if(TicketList.isEmpty()){
             try{

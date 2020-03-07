@@ -1,7 +1,5 @@
 package com.fligths;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -23,12 +21,6 @@ public class FlightTicketSearchClient implements FlightTicketSearch {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /*try {
-            this.socket = new Socket();
-            socket.connect(new InetSocketAddress("localhost", 8081));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
 
@@ -44,22 +36,20 @@ public class FlightTicketSearchClient implements FlightTicketSearch {
 
     @Override
     public List<String> findCheapest(String dep) {
-        FlightCommand command = new FlightCommand("find_cheapest_ticket", new String[]{dep});
+        FlightCommand command = new FlightCommand("findCheapestTicket", new String[]{dep});
+        String string ="";
         try{
             OutputStream outputStream = socket.getOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             objectOutputStream.writeObject(command);
+            objectOutputStream.flush();
+            InputStream inputStream = socket.getInputStream();
+            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+            string = ((FlightTicketList)objectInputStream.readObject()).getList().get(0);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /*try {
-            OutputStream outputStream = socket.getOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-            objectOutputStream.writeObject(command);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-        return Collections.singletonList("");
+       return Collections.singletonList(string);
     }
 
     @Override

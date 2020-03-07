@@ -6,28 +6,29 @@ import java.net.Socket;
 
 public class Server {
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+    public static void main(String[] args){
+        FlightTicketServerSearch.getTickets();
         System.out.println("Server Started");
         int port = 8081;
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             Socket socket = serverSocket.accept();
             System.out.println("done");
+            InputStream inputStream = socket.getInputStream();
+            ObjectInputStream objectInputStream;
+            OutputStream outputStream = socket.getOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+            FlightTicketServerSearch flightTicket = new FlightTicketServerSearch();
             while(true){
-                InputStream inputStream = socket.getInputStream();
-                ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+                objectInputStream = new ObjectInputStream(inputStream);
+                Object object = objectInputStream.readObject();
+                FlightCommandExecutor executor = new FlightCommandExecutor(flightTicket);
+                FlightTicketList list = new FlightTicketList(executor.executeCommand((FlightCommand)object));
+                objectOutputStream.writeObject(list);
+                objectOutputStream.flush();
             }
-
-            /*while (true) {
-                Socket socket = serverSocket.accept();
-                ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
-                FlightCommand flightCommand = (FlightCommand) input.readObject();
-                System.out.println("Command received:" + flightCommand.getName());
-                System.out.println("sleep");
-            }*/
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
