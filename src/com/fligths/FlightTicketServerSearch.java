@@ -17,7 +17,7 @@ public class FlightTicketServerSearch implements FlightTicketSearch {
     @Override
     public List<String> destinationList(String departure){
         List<String> destinations = TicketList.stream()
-                .filter(ticket -> ticket.getDestination().equals(departure))
+                .filter(ticket -> (ticket.getDeparture().equals(departure)))
                 .map(FlightTicket::getDestination)
                 .distinct()
                 .collect(Collectors.toList());
@@ -43,9 +43,9 @@ public class FlightTicketServerSearch implements FlightTicketSearch {
         while(true){
             if ((F = FT.next()).getDeparture().equals(dep)) break;
         }
-        for(FlightTicket T:TicketList){
-            if(T.getPrice().equals(F.getPrice())&&(T.getDeparture().equals(dep))){
-                cheapTickets.append(T).append("\n");
+        for(FlightTicket ticket:TicketList){
+            if(ticket.getPrice().equals(F.getPrice())&&(ticket.getDeparture().equals(dep))){
+                cheapTickets.append(ticket).append("\n");
             }
         }
         return Collections.singletonList(cheapTickets.toString());
@@ -54,9 +54,10 @@ public class FlightTicketServerSearch implements FlightTicketSearch {
     @Override
     public List<String> findTicket(String dep, String des){
         StringBuilder tickets = new StringBuilder();
+        if(dep.equals("Minsk")) System.out.println("true");
         for(FlightTicket ticket:TicketList){
-            System.out.println(ticket.getDeparture() + ticket.getDestination());
-            if ((ticket.getDeparture().equals(dep))&&(ticket.getDestination().equals(des))){
+            System.out.println(ticket.getDestination());
+            if ((dep.equals(ticket.getDeparture())&&(des.equals(ticket.getDestination())))){
                 tickets.append(ticket).append("\n");
             }
         }

@@ -16,7 +16,6 @@ public class ServerFlightCommandExecutor {
                 System.out.println(command.getParams().get(0) + command.getParams().get(1));
                 return flightTicket.findTicket(command.getParams().get(0), command.getParams().get(1));
             case "findCheapestTicket":
-                System.out.println("cheapest ticket");
                 return flightTicket.findCheapest(command.getParams().get(0));
             case "getDepartureList":
                 return flightTicket.departureList();

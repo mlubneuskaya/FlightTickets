@@ -32,7 +32,7 @@ public class Gui extends JFrame {
                 ticket.departureList());
 
         JComboBox<String> destinationBox = makeComboBox(440, 80, 400, 60, "",
-                ticket.destinationList("Paris"));
+                ticket.destinationList(initialItem));
 
         JLabel destinationLabel = makeLabel(440, 65, 400, 12, "to");
 
