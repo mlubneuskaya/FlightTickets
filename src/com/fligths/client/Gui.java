@@ -1,4 +1,6 @@
-package com.fligths;
+package com.fligths.client;
+
+import com.fligths.FlightTicketSearch;
 
 import javax.swing.*;
 import java.awt.Font;

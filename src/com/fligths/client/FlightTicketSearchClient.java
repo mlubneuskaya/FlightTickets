@@ -1,4 +1,8 @@
-package com.fligths;
+package com.fligths.client;
+
+import com.fligths.FlightCommand;
+import com.fligths.FlightTicketList;
+import com.fligths.FlightTicketSearch;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -27,47 +31,30 @@ public class FlightTicketSearchClient implements FlightTicketSearch {
     @Override
     public List<String> destinationList(String departure) {
         FlightCommand command = new FlightCommand("getDestinationList", new String[]{departure});
-        List<String> destinations = null;
-        try{
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            objectOutputStream.writeObject(command);
-            objectOutputStream.flush();
-            destinations = ((FlightTicketList)objectInputStream.readObject()).getList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return destinations;
+        return getList(command);
     }
 
     @Override
     public List<String> departureList() {
         FlightCommand command = new FlightCommand("getDepartureList", new String[]{});
-        List<String> departures = null;
-        try{
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            objectOutputStream.writeObject(command);
-            objectOutputStream.flush();
-            departures = ((FlightTicketList)objectInputStream.readObject()).getList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return departures;
+        return getList(command);
     }
+
 
     @Override
     public List<String> findCheapest(String dep) {
         FlightCommand command = new FlightCommand("findCheapestTicket", new String[]{dep});
-        return getList(command);
+        return getString(command);
     }
 
     @Override
     public List<String> findTicket(String dep, String des) {
 
         FlightCommand command = new FlightCommand("findTicket", new String[]{dep, des});
-        return getList(command);
+        return getString(command);
     }
 
-    private List<String> getList(FlightCommand command) {
+    private List<String> getString(FlightCommand command) {
         String string ="";
         try{
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -78,5 +65,17 @@ public class FlightTicketSearchClient implements FlightTicketSearch {
             e.printStackTrace();
         }
         return Collections.singletonList(string);
+    }
+    private List<String> getList(FlightCommand command) {
+        List<String> departures = null;
+        try{
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.writeObject(command);
+            objectOutputStream.flush();
+            departures = ((FlightTicketList)objectInputStream.readObject()).getList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return departures;
     }
 }

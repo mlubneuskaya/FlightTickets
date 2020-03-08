@@ -1,4 +1,6 @@
-package com.fligths;
+package com.fligths.server;
+
+import com.fligths.FlightTicketSearch;
 
 import java.io.File;
 import java.io.FileNotFoundException;

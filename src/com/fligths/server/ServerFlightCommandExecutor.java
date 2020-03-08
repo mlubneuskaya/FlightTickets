@@ -1,4 +1,7 @@
-package com.fligths;
+package com.fligths.server;
+import com.fligths.FlightCommand;
+import com.fligths.FlightTicketSearch;
+
 import java.util.List;
 
 public class ServerFlightCommandExecutor {

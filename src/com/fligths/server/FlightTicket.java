@@ -1,4 +1,4 @@
-package com.fligths;
+package com.fligths.server;
 
 public class FlightTicket {
     private String departure;

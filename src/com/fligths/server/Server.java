@@ -1,4 +1,6 @@
-package com.fligths;
+package com.fligths.server;
+
+import com.fligths.*;
 
 import java.io.*;
 import java.net.ServerSocket;
