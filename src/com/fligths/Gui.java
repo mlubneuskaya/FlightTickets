@@ -29,9 +29,9 @@ public class Gui extends JFrame {
         String initialItem = "Minsk";
 
         JComboBox<String> departureBox = makeComboBox(20, 80, 400, 60, initialItem,
-                ticket.departureList(initialItem));
+                ticket.departureList());
 
-        JComboBox<String> destinationBox = makeComboBox(440, 80, 400, 60, " ",
+        JComboBox<String> destinationBox = makeComboBox(440, 80, 400, 60, "",
                 ticket.destinationList("Paris"));
 
         JLabel destinationLabel = makeLabel(440, 65, 400, 12, "to");

@@ -7,9 +7,10 @@ import java.net.Socket;
 public class Server {
 
     public static void main(String[] args){
-        FlightTicketServerSearch.getTickets();
         System.out.println("Server Started");
         int port = 8081;
+        FlightTicketSearch flightTicket =
+                FlightTicketServerSearch.createSearchFromFile(new File("C:/projects/flights.csv"));
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             Socket socket = serverSocket.accept();
@@ -18,7 +19,6 @@ public class Server {
             ObjectInputStream objectInputStream;
             OutputStream outputStream = socket.getOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-            FlightTicketServerSearch flightTicket = new FlightTicketServerSearch();
             while(true){
                 objectInputStream = new ObjectInputStream(inputStream);
                 Object object = objectInputStream.readObject();

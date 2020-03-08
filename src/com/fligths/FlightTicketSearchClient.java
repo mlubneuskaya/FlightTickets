@@ -40,8 +40,8 @@ public class FlightTicketSearchClient implements FlightTicketSearch {
     }
 
     @Override
-    public List<String> departureList(String destination) {
-        FlightCommand command = new FlightCommand("getDepartureList", new String[]{destination});
+    public List<String> departureList() {
+        FlightCommand command = new FlightCommand("getDepartureList", new String[]{});
         List<String> departures = null;
         try{
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());

@@ -5,7 +5,7 @@ public interface FlightTicketSearch {
 
     List<String> destinationList(String departure);
 
-    List<String> departureList(String destination);
+    List<String> departureList();
 
     List<String> findCheapest(String dep);
 
