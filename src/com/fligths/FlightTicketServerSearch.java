@@ -3,37 +3,37 @@ package com.fligths;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class FlightTicketServerSearch implements FlightTicketSearch {
     private static ArrayList<FlightTicket> TicketList = new ArrayList<>();
-    private static SortedSet<String> TEMP = new TreeSet<>();
 
     public FlightTicketServerSearch(){}
 
     @Override
     public List<String> destinationList(String departure){
-        TEMP.clear();
-        FlightTicketServerSearch.getTickets();
-        for(FlightTicket FT: TicketList){
-            if(FT.getDestination().equals(departure)){
-                TEMP.add(FT.getDestination());
-            }
-        }
-        ArrayList<String> destinations = new ArrayList<>(TEMP);
+        /*List<String> destinations = TicketList.stream()
+                .filter(ticket -> ticket.getDestination().equals(departure))
+                .map(FlightTicket::getDestination)
+                .distinct()
+                .collect(Collectors.toList());;
         destinations.add(0, "");
+        System.out.println(destinations);*/
+        List<String> destinations = new ArrayList<>();
+        destinations.add(departure);
+        destinations.add("Minsk");
+        destinations.add("Vienna");
         return destinations;
     }
 
     @Override
     public List<String> departureList(String destination){
-        TEMP.clear();
-        FlightTicketServerSearch.getTickets();
-        for(FlightTicket FT: TicketList){
-            if(!FT.getDeparture().equals(destination)){
-                TEMP.add(FT.getDeparture());
-            }
-        }
-        return new ArrayList<>(TEMP);
+        List<String> departures = TicketList.stream()
+                .filter(ticket -> ticket.getDeparture().equals(destination))
+                .map(FlightTicket::getDeparture)
+                .distinct()
+                .collect(Collectors.toList());
+        return departures;
     }
 
     @Override
@@ -55,9 +55,10 @@ public class FlightTicketServerSearch implements FlightTicketSearch {
     @Override
     public List<String> findTicket(String dep, String des){
         StringBuilder tickets = new StringBuilder();
-        for(FlightTicket FT:TicketList){
-            if ((FT.getDeparture().equals(dep))&&(FT.getDestination().equals(des))){
-                tickets.append(FT).append("\n");
+        for(FlightTicket ticket:TicketList){
+            System.out.println(ticket.getDeparture() + ticket.getDestination());
+            if ((ticket.getDeparture().equals(dep))&&(ticket.getDestination().equals(des))){
+                tickets.append(ticket).append("\n");
             }
         }
         return Collections.singletonList(tickets.toString());
@@ -65,21 +66,18 @@ public class FlightTicketServerSearch implements FlightTicketSearch {
 
     public static void getTickets(){
         String temp;
-        if(TicketList.isEmpty()){
-            try{
-                Scanner scanner = new Scanner(new File("C:/projects/flights.csv"));
-                while(scanner.hasNext()){
-                    temp = scanner.nextLine();
-                    String[] tempTickets = temp.split(",");
-                    TicketList.add(new FlightTicket(tempTickets[0], tempTickets[1], tempTickets[2], tempTickets[3]));
-                }
-                scanner.close();
-                TicketList.sort(Comparator.comparingDouble(FlightTicket::getPrice));
-            } catch (FileNotFoundException e) {
-                System.out.println("File not found");
-                System.exit(1);
+        try{
+            Scanner scanner = new Scanner(new File("C:/projects/flights.csv"));
+            while(scanner.hasNext()){
+                temp = scanner.nextLine();
+                String[] tempTickets = temp.split(",");
+                TicketList.add(new FlightTicket(tempTickets[0], tempTickets[1], tempTickets[2], tempTickets[3]));
             }
+            scanner.close();
+            TicketList.sort(Comparator.comparingDouble(FlightTicket::getPrice));
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+            System.exit(1);
         }
     }
-
 }

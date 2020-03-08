@@ -22,7 +22,7 @@ public class Server {
             while(true){
                 objectInputStream = new ObjectInputStream(inputStream);
                 Object object = objectInputStream.readObject();
-                FlightCommandExecutor executor = new FlightCommandExecutor(flightTicket);
+                ServerFlightCommandExecutor executor = new ServerFlightCommandExecutor(flightTicket);
                 FlightTicketList list = new FlightTicketList(executor.executeCommand((FlightCommand)object));
                 objectOutputStream.writeObject(list);
                 objectOutputStream.flush();

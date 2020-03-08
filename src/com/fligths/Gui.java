@@ -12,8 +12,6 @@ public class Gui extends JFrame {
     private static Font FONT = new Font("", Font.BOLD, 20);
     private static Font SMALL_FONT = new Font("", Font.BOLD, 15);
 
-    private FlightCommandExecutor executor;
-
     public static void main(String[] args) {
         FlightTicketSearch ticket = new FlightTicketSearchClient();
         Gui gui = new Gui(ticket);
@@ -22,7 +20,6 @@ public class Gui extends JFrame {
     }
 
     private Gui(FlightTicketSearch ticket) {
-        this.executor = new FlightCommandExecutor(ticket);
 
         setSize(2000, 2000);
         setLayout(null);
@@ -32,10 +29,10 @@ public class Gui extends JFrame {
         String initialItem = "Minsk";
 
         JComboBox<String> departureBox = makeComboBox(20, 80, 400, 60, initialItem,
-                ticket.departureList(""));
+                ticket.departureList(initialItem));
 
-        JComboBox<String> destinationBox = makeComboBox(440, 80, 400, 60, "",
-                ticket.destinationList(initialItem));
+        JComboBox<String> destinationBox = makeComboBox(440, 80, 400, 60, " ",
+                ticket.destinationList("Paris"));
 
         JLabel destinationLabel = makeLabel(440, 65, 400, 12, "to");
 
@@ -57,9 +54,8 @@ public class Gui extends JFrame {
 
         JButton search = makeButton(860, 80, 120, 60, "search");
         search.addActionListener(e -> {
-            FlightCommand command = new FlightCommand("findTicket",
-                    new String[]{departureBox.getSelectedItem().toString(), destinationBox.getSelectedItem().toString()});
-            Results.append(executor.executeCommand(command).get(0));
+            Results.append(ticket.findTicket(departureBox.getSelectedItem().toString(),
+                    destinationBox.getSelectedItem().toString()).get(0));
             Results.setVisible(true);
         });
 
@@ -90,7 +86,7 @@ public class Gui extends JFrame {
         return box;
     }
 
-    ;private JTextArea makeTextArea(int x, int y, int w, int h){
+    private JTextArea makeTextArea(int x, int y, int w, int h){
         JTextArea area = new JTextArea();
         area.setBounds(x, y, w, h);
         area.setFont(FONT);
