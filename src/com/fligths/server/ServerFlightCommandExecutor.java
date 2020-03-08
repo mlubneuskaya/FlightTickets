@@ -4,15 +4,15 @@ import com.fligths.FlightTicketSearch;
 
 import java.util.List;
 
-public class ServerFlightCommandExecutor {
+class ServerFlightCommandExecutor {
 
     private FlightTicketSearch flightTicket;
 
-    public ServerFlightCommandExecutor(FlightTicketSearch flightTicket) {
+    ServerFlightCommandExecutor(FlightTicketSearch flightTicket) {
         this.flightTicket = flightTicket;
     }
 
-    public List<String> executeCommand(FlightCommand command){
+    List<String> executeCommand(FlightCommand command){
         switch(command.getName().get(0)) {
             case "findTicket":
                 System.out.println("find ticket");

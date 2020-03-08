@@ -11,7 +11,7 @@ public class FlightTicketServerSearch implements FlightTicketSearch {
 
     private final List<FlightTicket> TicketList;
 
-    public FlightTicketServerSearch(List<FlightTicket> TicketList){
+    private FlightTicketServerSearch(List<FlightTicket> TicketList){
         this.TicketList = TicketList;
 
     };
@@ -24,7 +24,6 @@ public class FlightTicketServerSearch implements FlightTicketSearch {
                 .distinct()
                 .collect(Collectors.toList());
         destinations.add(0, "");
-        System.out.println(destinations);
         return destinations;
     }
 
@@ -56,9 +55,7 @@ public class FlightTicketServerSearch implements FlightTicketSearch {
     @Override
     public List<String> findTicket(String dep, String des){
         StringBuilder tickets = new StringBuilder();
-        if(dep.equals("Minsk")) System.out.println("true");
         for(FlightTicket ticket:TicketList){
-            System.out.println(ticket.getDestination());
             if ((dep.equals(ticket.getDeparture())&&(des.equals(ticket.getDestination())))){
                 tickets.append(ticket).append("\n");
             }

@@ -39,7 +39,9 @@ public class Gui extends JFrame {
         JLabel destinationLabel = makeLabel(440, 65, 400, 12, "to");
 
         departureBox.addItemListener(e -> {
-            List<String> destinations = ticket.destinationList(Objects.requireNonNull(departureBox.getSelectedItem()).toString());
+            if(departureBox.getSelectedItem() == null)
+                System.out.println("terrible thing happened");
+            List<String> destinations = ticket.destinationList(departureBox.getSelectedItem().toString());
             destinationBox.setModel(new DefaultComboBoxModel<>(destinations.toArray(new String[0])));
         });
 
@@ -49,6 +51,8 @@ public class Gui extends JFrame {
         JButton cheapest = makeButton(1000, 80, 200, 60, "cheapest tickets");
 
         cheapest.addActionListener(e -> {
+            if (departureBox.getSelectedItem() == null)
+                Results.append("");
             Results.append(ticket.findCheapest(departureBox.getSelectedItem().toString()).get(0));
             destinationBox.setSelectedItem(destinationBox.getItemAt(0));
             Results.setVisible(true);
@@ -56,6 +60,10 @@ public class Gui extends JFrame {
 
         JButton search = makeButton(860, 80, 120, 60, "search");
         search.addActionListener(e -> {
+            if (departureBox.getSelectedItem() == null)
+                Results.append("");
+            if (destinationBox.getSelectedItem() == null)
+                Results.append("");
             Results.append(ticket.findTicket(departureBox.getSelectedItem().toString(),
                     destinationBox.getSelectedItem().toString()).get(0));
             Results.setVisible(true);

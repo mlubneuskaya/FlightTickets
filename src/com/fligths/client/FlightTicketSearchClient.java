@@ -15,13 +15,12 @@ public class FlightTicketSearchClient implements FlightTicketSearch {
     private Socket socket;
     private ObjectInputStream objectInputStream;
 
-    public FlightTicketSearchClient() {
+    FlightTicketSearchClient() {
         String address = "127.0.0.1";
         try{
             InetAddress ipAddress = InetAddress.getByName(address);
             int port = 8081;
             this.socket = new Socket(ipAddress, port);
-            System.out.println("Soooocket");
             this.objectInputStream = new ObjectInputStream(socket.getInputStream());
         } catch (Exception e) {
             e.printStackTrace();

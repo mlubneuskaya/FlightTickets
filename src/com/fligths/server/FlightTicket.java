@@ -6,18 +6,18 @@ public class FlightTicket {
     private Double price;
     private String date;
 
-    public FlightTicket(String Departure, String Destination, String Price, String Date) {
+    FlightTicket(String Departure, String Destination, String Price, String Date) {
         departure = Departure;
         destination = Destination;
         price = Double.parseDouble(Price);
         date = Date;
     }
 
-    public String getDeparture() {return departure;}
+    String getDeparture() {return departure;}
 
-    public String getDestination() {return destination;}
+    String getDestination() {return destination;}
 
-    public Double getPrice() {return price;}
+    Double getPrice() {return price;}
 
     public String getDate() {
         return date;
